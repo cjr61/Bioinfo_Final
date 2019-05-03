@@ -1,3 +1,93 @@
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+import io
+import pandas as pd
+
+trainingFrame = pd.read_csv("trainData.tsv", sep='\t')
+
+def refineDict(_dict, *retainedKeys):
+    try:
+        rKeys = [k for k in retainedKeys]
+        for key in list(_dict):
+            if key not in rKeys:
+                del _dict[key]
+        if not len(_dict) == 0:
+            return _dict
+        else:
+            raise KeyError('String arguments were not passed to `itercolumns` argument: *colName')
+    except KeyError:
+        print('Type `help(itercolumns)` for suggested usage'
+
+def itercolumns(dataframe, *colName, _aslist=False, _asdict=True):
+    if len(colName) == 1:
+        match = colName[0]
+        for frame in dataframe.itertuples():
+            columnsList = frame._asdict()
+            columnsList = dict(columnsList)
+            i = 0
+            while i < len(columnsList):
+                if list(columnsList)[i] == match:
+                    return i
+                i += 1
+            break
+        raise ValueError('DataFrame did not contain specified column header name')
+
+    if all([_aslist == True]):
+        return list(dataframe)
+
+    else:
+        if all([_aslist == False, _asdict == True]):
+            for frame in dataframe.itertuples():
+                columnsList = frame._asdict()
+                columnsList = dict(columnsList)
+                columnsDict = OrderedDict()
+                i = 0
+                for col in list(columnsList):
+                    columnsDict[col] = i
+                    i += 1
+                if len(colName) == 0:
+                    return columnsDict
+                elif len(colName) >= 1:
+                    for argGiven in colName:
+                        if argGiven not in columnsList:
+                            raise ValueError('Dataframe did not contain specified column header name')
+                    return refineDict(columnsDict, *[x for x in colName])
+
+
+trainingFrame.columns = trainingFrame.columns.str.strip().str.lower().str.replace(' ', '_').str.replace('(', '').str.replace(')', '')
+trainingFrame = trainingFrame[~trainingFrame.gene_description.str.contains("(endogenous control)")]
+#trainingFrame = trainingFrame[trainingFrame.index.duplicated()]
+
+allA = trainingFrame
+allA = allA.filter(like='call')
+
+allA = allA.filter(items=['M','P'], axis=0 )
+filteredDF = pd.DataFrame()
+
+# trainingFrame = trainingFrame[(trainingFrame == 'M')|(trainingFrame == 'P')].dropna()
+
+# ['call', 'call.1', 'call.2', 'call.3', 'call.4', 'call.5', 'call.6', 'call.7', 'call.8', 'call.9', 'call.10', 'call.11', 'call.12', 'call.13',
+#  'call.14', 'call.15', 'call.16', 'call.17', 'call.18', 'call.19', 'call.20', 'call.21', 'call.22', 'call.23', 'call.24', 'call.25',
+#  'call.26', 'call.27', 'call.28', 'call.29', 'call.30', 'call.31', 'call.32', 'call.33', 'call.34', 'call.35', 'call.36', 'call']
+
+# for index, row in trainingFrame.iterrows():
+#     for item in row:
+#         if item == 'P' or item =='M':
+#             filteredDF.append(row)
+#             break
+x = lambda j: [frame for frame in trainingFrame.itertuples()]
+'''
+
+
+
+# print(trainingFrame)
+with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+    print(trainingFrame)
+#print(allA)
+'''
+=======
+>>>>>>> Stashed changes
 import io
 import pandas as pd
 
@@ -75,4 +165,9 @@ trainingFrame = trainingFrame[~trainingFrame.gene_description.str.contains("(end
 
 data = preprocess(trainingFrame)
 clsFile = "ALL_vs_AML_train_set_38_sorted.cls"
+<<<<<<< Updated upstream
 writeToFile(data, clsFile)
+=======
+writeToFile(data, clsFile)
+>>>>>>> origin/master
+>>>>>>> Stashed changes
