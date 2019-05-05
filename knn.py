@@ -22,15 +22,18 @@ flipped = flipped.drop(columns=[0])
 
 knn.fit(flipped, values)
 
-tf = pd.read_csv("preprocessedTest.csv")
-tf = tf.drop(columns=['gene_accession_number'])
+tf = pd.read_csv("top_fifty_test.csv")
 
+tf = tf.drop(columns=['gene_accession_number'])
+tf = tf.drop(columns=['p-value'])
 tf = tf.transpose()
-trueValues = tf[1].values
-tf = tf.drop(columns=[0, 1, 2])
+testValues = tf[0].values
+tf = tf.drop(columns=[0])
 # print(tf.head())
-tf = tf.drop(tf.ix[:, 53:].columns, axis = 1)
+# tf = tf.drop(tf.ix[:, 53:].columns, axis = 1)
 # print(trueValues)
 
+print("Predicted:")
 print(knn.predict(tf))
-print(trueValues)
+print("Actual:")
+print(testValues)
