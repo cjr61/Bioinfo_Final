@@ -29,7 +29,8 @@ tf = tf.transpose()
 trueValues = tf[1].values
 tf = tf.drop(columns=[0, 1, 2])
 # print(tf.head())
-
+tf = tf.drop(tf.ix[:, 53:].columns, axis = 1)
 # print(trueValues)
-# print(flipped, tf)
+
 print(knn.predict(tf))
+print(trueValues)

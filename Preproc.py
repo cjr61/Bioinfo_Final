@@ -65,14 +65,14 @@ def writeToFile(data, clsFile):
                 output += str(gene[val]) + "\t"
         output += "\n"
 
-    preprocessedData = open("preprocessedData.tsv", "w")
+    preprocessedData = open("preprocessedTest.tsv", "w")
     preprocessedData.writelines(output)
 
-trainingFrame = pd.read_csv("trainData.tsv", sep='\t')
+trainingFrame = pd.read_csv("testData.tsv", sep='\t')
 
 trainingFrame.columns = trainingFrame.columns.str.strip().str.lower().str.replace(' ', '_').str.replace('(', '').str.replace(')', '')
 trainingFrame = trainingFrame[~trainingFrame.gene_description.str.contains("(endogenous control)")]
 
 data = preprocess(trainingFrame)
-clsFile = "ALL_vs_AML_train_set_38_sorted.cls"
+clsFile = "Leuk_ALL_AML.test.cls"
 writeToFile(data, clsFile) 
